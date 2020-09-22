@@ -1,2 +1,2 @@
-# projeto_bom_pagador
+# Projeto Bom Pagador
 Projeto Intergrado da pós graduação.
