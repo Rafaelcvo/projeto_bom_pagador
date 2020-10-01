@@ -29,3 +29,4 @@ educa = st.sidebar.selectbox("Educação", [ "Pós-Graduação", "Universitário
 estado_civil = st.sidebar.selectbox("Estado Civil", ['Casado', 'Solteiro', 'Outros'])
 idade = st.sidebar.number_input("Idade", value=0)
 tempo_empr =st.sidebar.number_input("Tempo de Empresa", value=0)
+
