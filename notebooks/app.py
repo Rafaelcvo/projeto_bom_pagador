@@ -62,6 +62,7 @@ idade = st.sidebar.number_input("Idade", value=0)
 tempo_empr =st.sidebar.number_input("Tempo de Empresa", value=0)
 
 st.write(renda_anual, sexo, educa, estado_civil, idade, tempo_empr)
+
 # Inserindo um botao na tela
 btn_predict = st.sidebar.button("Realizar consluta")
 
