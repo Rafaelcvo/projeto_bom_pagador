@@ -17,5 +17,8 @@ st.dataframe(df_inter.head(10))
 # Unindo os datasets
 df = df_ext + df_inter
 
-x = df.drop('default', axis=1)
-y = df['default']
+x = df.drop('Situacao', axis=1)
+y = df['Situacao']
+
+# Campos de entrada de dados do cliente.
+st.slider("Renda Anual", float(x['Renda Anual'].min()), 150., (10.0,500.0))
