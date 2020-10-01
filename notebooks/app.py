@@ -17,8 +17,5 @@ st.dataframe(df_inter.head(10))
 # Unindo os datasets
 df = df_ext + df_inter
 
-# selecionando colunas
-cols = []
-
 x = df.drop('default', axis=1)
 y = df['default']
