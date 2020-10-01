@@ -72,3 +72,4 @@ if btn_predict:
     sit = "Aprovado" if result[0] == 0 else "Reprovado"
     st.write("O cliente está ",sit)
 
+# teste
