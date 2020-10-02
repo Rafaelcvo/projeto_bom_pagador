@@ -3,6 +3,7 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
 st.title("Sistema Bom Pagador")
@@ -18,15 +19,17 @@ df_inter = pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_inter
 st.dataframe(df_inter)
 
 def get_data():
-    return pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_original.csv")
+    return pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
 
 # Função para treinar o modelo
 def train_model():
     df = get_data()
     x = df.drop(['ID','Situacao'], axis=1)
     y = df['Situacao']
-    clf = RandomForestClassifier(n_estimators=200, max_depth=7, max_features=3)
-    clf.fit(x, y)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
+    clf = GaussianNB()
+    #clf = RandomForestClassifier(n_estimators=200, max_depth=7, max_features=3)
+    clf.fit(x_train, y_train)
     return clf
 
 # Treinando o modelo.
@@ -51,11 +54,11 @@ else:
 
 estado_civil = st.sidebar.selectbox("Estado Civil", ['Casado', 'Solteiro', 'Outros'])
 if estado_civil == "Casado":
-    estado_civil = 1
+    estado_civil = 0
 elif estado_civil == "Solteiro":
-    estado_civil = 2
+    estado_civil = 1
 else:
-    estado_civil = 3
+    estado_civil = 2
 
 
 idade = st.sidebar.number_input("Idade", value=0)
