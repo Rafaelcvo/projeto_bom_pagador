@@ -70,6 +70,4 @@ btn_predict = st.sidebar.button("Realizar consluta")
 if btn_predict:
     result = model.predict([[renda_anual, sexo, educa, estado_civil, idade, tempo_empr]])
     sit = "Aprovado" if result[0] == 0 else "Reprovado"
-    st.write("O cliente está ",sit)
-
-# teste
+    st.write("O cliente está ",sit)    
