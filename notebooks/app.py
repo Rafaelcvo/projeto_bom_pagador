@@ -16,18 +16,32 @@ transf = {0:"Aprovado", 1:"Reprovado"}
 
 # Importando dataset externo que esta armazendo no drive.
 st.markdown("Base de dados de clientes externos.")
-df_ext = pd.read_csv('/home/rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
+# Linux
+#df_ext = pd.read_csv('/home/rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
+
+# Windows
+df_ext = pd.read_csv('C:/Users/Rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
+
 ext = df_ext.copy()
 ext['Situacao'] = ext['Situacao'].map(transf)
 st.dataframe(ext.head(5))
 
 st.markdown("Base de dados de clientes interno.")
-df_inter = pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
+
+# Linux
+#df_inter = pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
+
+# Windows
+df_inter = pd.read_csv("C:/Users/Rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
+
 inter = df_inter.copy()
 inter['Situacao'] = inter['Situacao'].map(transf)
 st.dataframe(inter.head(5))
+# Linux
+#df =  pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
 
-df =  pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
+# Windows
+df =  pd.read_csv("C:/Users/Rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
 
 #----------------- Classificação do cliente utilizando algoritmos ---------------------------------------#
 # Função para treinar o modelo
