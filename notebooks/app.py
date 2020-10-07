@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
+import plotly.express as px
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -9,25 +9,29 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
 st.title("Sistema Bom Pagador")
-st.markdown("## Sistema de avalição de clientes.")
-st.text("Apresentação geral dos dados coletados.")
+st.markdown("## Apresentação geral dos dados coletados.")
+
+# Convertendo variaveis 
+transf = {0:"Aprovado", 1:"Reprovado"}
 
 # Importando dataset externo que esta armazendo no drive.
 st.markdown("Base de dados de clientes externos.")
 df_ext = pd.read_csv('/home/rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
-st.dataframe(df_ext.head(5))
+ext = df_ext.copy()
+ext['Situacao'] = ext['Situacao'].map(transf)
+st.dataframe(ext.head(5))
 
 st.markdown("Base de dados de clientes interno.")
 df_inter = pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
-st.dataframe(df_inter.head(5))
+inter = df_inter.copy()
+inter['Situacao'] = inter['Situacao'].map(transf)
+st.dataframe(inter.head(5))
 
-def get_data():
-    return pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
+df =  pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/base_balanceada.csv")
 
 #----------------- Classificação do cliente utilizando algoritmos ---------------------------------------#
 # Função para treinar o modelo
-def train_model():
-    df = get_data()
+def random_forest(df):
     x = df.drop(['ID','Situacao'], axis=1)
     y = df['Situacao']
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
@@ -36,7 +40,7 @@ def train_model():
     return clf
 
 # Treinando o modelo.
-model = train_model()
+model = random_forest(df)
 
 # Campos de entrada de dados do cliente.
 st.sidebar.subheader("Dados do clientes a ser avaliado")
@@ -70,7 +74,7 @@ tempo_empr =st.sidebar.number_input("Tempo de Empresa", value=0)
 # st.write(renda_anual, sexo, educa, estado_civil, idade, tempo_empr)
 
 # Inserindo um botao na tela
-btn_predict = st.sidebar.button("Realizar consluta")
+btn_predict = st.sidebar.button("Realizar consulta")
 
 # Realizar a consulta quando o botao for acionado
 if btn_predict:
@@ -82,12 +86,21 @@ if btn_predict:
 
 #-----------------Apresentação dos dados --------------------------------------#   
 
-st.write("A base de clientes externos possui ", df_ext['Renda Anual'].count() , "e a base de clientes interna possui ", df_inter['Renda Anual'].count())
+st.write("A base de clientes externos possui ", df_ext['Renda Anual'].count(),  
+            "e a base de clientes interna possui ", df_inter['Renda Anual'].count(),
+            ", mas para trabalhar com os algoritmos de classificação foi necessário fazer o balanceamento dos dados. "
+            "Sendo assim a base para treino ficou com", df['Renda Anual'].count(), "clientes.")
 
-df = get_data()
-st.text('Contagem de clientes de acordo com o sexo.')
+
+st.write('Contagem de clientes de acordo com o sexo.')
 sex = df['Sexo'].value_counts()
-st.write(sex.rename({1:"Masculino", 2:"Feminino"}, axis='index'))
+sex = sex.rename({1:"Masculino", 2:"Feminino"}, axis='index')
+st.write(sex)
+
+fig = px.bar(sex, y="Sexo")
+fig.update_xaxes(title_text="Tipo por sexo")
+fig.update_yaxes(title_text="Quantidade")
+st.plotly_chart(fig)
 
 
 
