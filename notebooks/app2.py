@@ -11,37 +11,17 @@ from sklearn.metrics import accuracy_score
 st.title("Sistema Bom Pagador")
 st.markdown("## Apresentação geral dos dados coletados.")
 
-# Convertendo variaveis 
-transf = {0:"Aprovado", 1:"Reprovado"}
+df =  pd.read_csv("/home/rafael/git/projeto_bom_pagador/notebooks/paulo/credit_risk_dataset.csv")
 
-# Importando dataset externo que esta armazendo no drive.
-st.markdown("Base de dados de clientes externos.")
-# Linux
-df_ext = pd.read_csv('/home/rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
 
-# Windows
-# df_ext = pd.read_csv('C:/Users/Rafael/git/projeto_bom_pagador/dataset/banco_externo.csv', index_col="ID")
 
-ext = df_ext.copy()
-ext['Situacao'] = ext['Situacao'].map(transf)
-st.dataframe(ext.head(5))
 
-st.markdown("Base de dados de clientes interno.")
 
-# Linux
-df_inter = pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
+#------- ADAPTAR O CODIGO A PARTIR DAQUI -------------------------------------------
 
-# Windows
-# df_inter = pd.read_csv("C:/Users/Rafael/git/projeto_bom_pagador/dataset/banco_interno.csv", index_col="ID")
 
-inter = df_inter.copy()
-inter['Situacao'] = inter['Situacao'].map(transf)
-st.dataframe(inter.head(5))
 
-# Linux
-df =  pd.read_csv("/home/rafael/git/projeto_bom_pagador/dataset/banco_original.csv")
-# Windows
-# df =  pd.read_csv("C:/Users/Rafael/git/projeto_bom_pagador/dataset/banco_original.csv")
+
 
 # Campos de entrada de dados do cliente.
 st.sidebar.subheader("Dados do clientes a ser avaliado")
@@ -70,8 +50,6 @@ else:
 
 idade = st.sidebar.number_input("Idade", value=0)
 tempo_empr =st.sidebar.number_input("Tempo de Empresa", value=0)
-
-# st.write(renda_anual, sexo, educa, estado_civil, idade, tempo_empr)
 
 # Inserindo um botao na tela
 btn_predict = st.sidebar.button("Realizar consulta")
