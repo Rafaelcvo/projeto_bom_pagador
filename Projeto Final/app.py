@@ -11,7 +11,7 @@ from sklearn.metrics import accuracy_score
 st.title("Sistema Bom Pagador")
 st.markdown("## Apresentação geral dos dados coletados.")
 
-df = pd.read_csv("/home/rafael/git/projeto_bom_pagador/Projeto Final/base.csv", index_col='Unnamed: 0')
+df = pd.read_csv("base.csv", index_col='Unnamed: 0')
 
 # Campos de entrada de dados do cliente.
 
@@ -64,7 +64,7 @@ if btn_predict:
     st.write(sit)
     nova = [renda_anual, idade, empr, finalidade, tempo_empr, taxa, result[0]]
     df.loc[len(df)] = nova
-    df.to_csv("/home/rafael/git/projeto_bom_pagador/Projeto Final/base.csv")
+    df.to_csv("base.csv")
 
 # Funcoes para conversoes.
 
