@@ -13,29 +13,7 @@ st.markdown("## Apresentação geral dos dados coletados.")
 
 df = pd.read_csv("/home/rafael/git/projeto_bom_pagador/notebooks/paulo/base2.csv", index_col='Unnamed: 0')
 
-st.dataframe(df)
-
 # Campos de entrada de dados do cliente.
-
-# Função transformar finalidade
-def finalid(finalidade):
-    if finalidade == "PERSONAL":
-        return 1
-    elif finalidade == "DEBTCONSOLIDATION":
-        return 2
-    elif finalidade == "EDUCATION":
-        return 3
-    elif finalidade == "HOMEIMPROVEMENT":
-        return 4 
-    elif finalidade == "MEDICAL":
-        return 5 
-    elif finalidade == "VENTURE":
-        return 6 
-    else:
-        return 7
-
-
-df['Finalidade'] = df['Finalidade'].map(finalid)
 
 st.sidebar.subheader("Dados do clientes a ser avaliado")
 
@@ -43,7 +21,7 @@ renda_anual = st.sidebar.number_input("Renda", value=0)
 idade = st.sidebar.number_input("Idade", value=0)
 empr = st.sidebar.number_input("Emprestimo",value=0)
 
-finalidade = st.sidebar.selectbox("Finalidade", [ "Pessoal", "Consolidação Debito", "Educação", "Melhoria em Casa", "Saúde", "Risco",])
+finalidade = st.sidebar.selectbox("Finalidade", [ "Pessoal", "Consolidação Débito", "Educação", "Melhoria em Casa", "Saúde", "Risco",])
 if finalidade == "Pessoal":
     finalidade = 1
 elif finalidade == "Consolidação Debito": 
@@ -56,8 +34,6 @@ elif finalidade == "Saúde":
     finalidade = 5 
 elif finalidade == "Risco": 
     finalidade = 6 
-else:
-    finalidade = 7
 
 tempo_empr = st.sidebar.number_input("Tempo de Empresa", value=0)
 
@@ -76,10 +52,52 @@ clf = RandomForestClassifier(max_depth=15)
 clf.fit(x_train, y_train)
 model_treinado = clf.predict(x_test)
 
+
 # Realizar a consulta quando o botao for acionado
 if btn_predict:
     result = clf.predict([[renda_anual, idade, empr, finalidade, tempo_empr, taxa]])
     sit = "Aprovado" if result[0] == 0 else "Reprovado"
-    st.sidebar.write("O cliente foi ", sit)
+    st.sidebar.write("O cliente foi ", sit,"!")
     acc = round(accuracy_score(y_test, model_treinado) * 100,2)
     st.sidebar.write("Accuracy do modelo é: ", acc)
+    st.write(result[0])
+    st.write(sit)
+    nova = [renda_anual, idade, empr, finalidade, tempo_empr, taxa, result[0]]
+    df.loc[len(df)] = nova
+    df.to_csv("/home/rafael/git/projeto_bom_pagador/notebooks/paulo/base2.csv")
+
+# Funcoes para conversoes.
+
+def finalid(finalidade):
+    if finalidade == 1:
+        return "Pessoal"
+    elif finalidade == 2:
+        return "Consolidação Débito"
+    elif finalidade == 3:
+        return "Educação"
+    elif finalidade == 4:
+        return "Melhoria em Casa" 
+    elif finalidade == 5:
+        return "Saúde"
+    elif finalidade == 6:
+        return "Risco"
+
+def situacao(situ):
+    if situ == 0:
+        return "Aprovado"
+    elif situ == 1:
+        return "Reprovado"
+
+df['Finalidade'] = df['Finalidade'].map(finalid)
+df["Situação"] = df['Situação'].map(situacao)
+# Divisao da base.
+df_int, df_ext = train_test_split(df, test_size=0.5)
+
+st.markdown("### Base de dados interna")
+st.dataframe(df_int)
+
+st.markdown("### Base de dados externa")
+st.dataframe(df_ext)
+
+st.markdown("### Modelo sendo alimentado pelas consultas")
+st.dataframe(df)
