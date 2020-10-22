@@ -1,11 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-# import plotly.express as px
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
 st.title("Sistema Bom Pagador")
@@ -47,7 +45,6 @@ x = df.drop(['Situação'], axis=1)
 y = df['Situação']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
 
-# clf = GaussianNB()
 clf = RandomForestClassifier(max_depth=15)
 clf.fit(x_train, y_train)
 model_treinado = clf.predict(x_test)
