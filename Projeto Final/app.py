@@ -4,7 +4,8 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import precision_recall_fscore_support
 
 st.title("Sistema Bom Pagador")
 st.markdown("## Apresentação geral dos dados coletados.")
@@ -56,13 +57,15 @@ if btn_predict:
     sit = "Aprovado" if result[0] == 0 else "Reprovado"
     st.sidebar.write("O cliente foi ", sit,"!")
     acc = round(accuracy_score(y_test, model_treinado) * 100,2)
+    f1 = f1_score(y_test, model_treinado, average=None)
+    prec = precision_recall_fscore_support(y_test, model_treinado, average='weighted')
     st.sidebar.write("Accuracy do modelo é: ", acc)
-    st.write(result[0])
-    st.write(sit)
+    st.sidebar.write("F1 score: ", f1)
+    st.sidebar.write("Prec: ", prec)
     nova = [renda_anual, idade, empr, finalidade, tempo_empr, taxa, result[0]]
     df.loc[len(df)] = nova
     df.to_csv("base.csv")
-
+  
 # Funcoes para conversoes.
 
 def finalid(finalidade):
