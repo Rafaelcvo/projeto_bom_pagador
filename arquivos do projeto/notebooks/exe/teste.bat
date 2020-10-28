@@ -1,1 +1,0 @@
-streamlit run C:\Users\Rafael\git\projeto_bom_pagador\notebooks\app.py
