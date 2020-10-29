@@ -7,7 +7,7 @@ para o curso de na Especialização em Ciência de Dados e Big Data.
 ## O Bom Pagador  
 
 O projeto é uma API a ser utilizada como apoio a análise de perfil de pagamento de clientes. 
-Baseada em algoritmos de Machine Learning, faz predições no sentido de sinalizar se os clientes poderão ter suas solicitações de crédito aprovadas ou não.  
+Baseada em algoritmos de Machine Learning, a api faz classificação no sentido de sinalizar se o cliente pode ter sua solicitação de crédito aprovada ou não.  
 
 O planejamento deste projeto teve como base as praticas do **Lean Inception** - Caroli(2018).
 
@@ -28,7 +28,7 @@ O planejamento deste projeto teve como base as praticas do **Lean Inception** - 
 
 3. Executando o projeto 
 
-    Execute o código a seguir pelo terminal de comando.
+    Execute o código a seguir via terminal de comando.
 ``` 
     streamlit run app.py 
 ```
