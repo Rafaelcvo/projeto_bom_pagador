@@ -4,8 +4,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, f1_score
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import accuracy_score
 
 st.title("Sistema Bom Pagador")
 st.markdown("## Apresentação geral dos dados coletados.")
@@ -54,14 +53,10 @@ model_treinado = clf.predict(x_test)
 # Realizar a consulta quando o botao for acionado
 if btn_predict:
     result = clf.predict([[renda_anual, idade, empr, finalidade, tempo_empr, taxa]])
-    sit = "Aprovado" if result[0] == 0 else "Reprovado"
-    st.sidebar.write("O cliente foi ", sit,"!")
+    sit = "BOM" if result[0] == 0 else "MAU"
     acc = round(accuracy_score(y_test, model_treinado) * 100,2)
-    f1 = f1_score(y_test, model_treinado, average=None)
-    prec = precision_recall_fscore_support(y_test, model_treinado, average='weighted')
-    st.sidebar.write("Accuracy do modelo é: ", acc)
-    st.sidebar.write("F1 score: ", f1)
-    st.sidebar.write("Prec: ", prec)
+    resp = "O cliente tem {}% de ser um {} pagador!"
+    st.sidebar.write(resp.format(acc, sit))
     nova = [renda_anual, idade, empr, finalidade, tempo_empr, taxa, result[0]]
     df.loc[len(df)] = nova
     df.to_csv("base.csv")
