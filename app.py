@@ -4,7 +4,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 
 st.title("Sistema Bom Pagador")
 st.markdown("## Apresentação geral dos dados coletados.")
@@ -53,8 +53,8 @@ model_treinado = clf.predict(x_test)
 # Realizar a consulta quando o botao for acionado
 if btn_predict:
     result = clf.predict([[renda_anual, idade, empr, finalidade, tempo_empr, taxa]])
-    sit = "BOM" if result[0] == 0 else "MAU"
-    acc = round(accuracy_score(y_test, model_treinado) * 100,2)
+    sit = "BOM" if result[0] == 0 else "MAU" 
+    acc = round(f1_score(y_test, model_treinado) * 100,2)
     resp = "O cliente tem {}% de ser um {} pagador!"
     st.sidebar.write(resp.format(acc, sit))
     nova = [renda_anual, idade, empr, finalidade, tempo_empr, taxa, result[0]]
